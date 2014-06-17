@@ -1,4 +1,4 @@
-* Ticket to Ride
+#Ticket to Ride
 
 Practicing my Python skills by trying to build a text adventure version of a board game (also on iOS) I really like, Ticket to Ride.
 
