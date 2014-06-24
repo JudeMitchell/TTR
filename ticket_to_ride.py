@@ -1,3 +1,5 @@
+from random import shuffle
+
 # Classes
 
 # Cities
@@ -53,22 +55,27 @@ class Ticket(object):
 		%d points
 		""" % (self.origin, self.destination, self.points)
 
-# Card
 
 # Ticket Deck
 
 # Card Deck
+class Deck(object):
+	def __init__(self):
+		track_colours = ["Black", "Blue", "Green", "Orange", "Pink", "Red", "White", "Yellow"]
+		self.deck = track_colours * 12
+		for i in range(14):
+			self.deck.append("Wildcard")
+		shuffle(self.deck)
+
+	def __str__(self):
+		return "The deck has %d cards in it." % len(self.deck)
+
+	def draw_a_card(self):
+		return self.deck.pop()
+
+
 
 # Cards on Table
 
 
 
-# jude = Player("Jude")
-# print jude		
-
-# thing = Ticket("Kansas City", "Houston", 5)
-# print thing
-
-
-a_track = Track("Denver", "Kansas City", 4, ["Black", "Orange"])
-print a_track
