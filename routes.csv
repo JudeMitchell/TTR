@@ -1,0 +1,7 @@
+origin,desitination,distance,list_of_colours
+Melbourne,Canberra,2,Black
+Canberra,Sydney,1,White Yellow
+Melbourne,Canberra,3,Yellow
+Adelaide,Melbourne,3,grey
+Adelaide,Mildura,2,Yellow
+Mildura,Sydney,4,grey

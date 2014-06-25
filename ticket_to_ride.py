@@ -1,6 +1,5 @@
 from random import shuffle
-
-# Classes
+import csv
 
 # Cities
 
@@ -10,18 +9,21 @@ class Track(object):
 		self.origin = origin
 		self.destination = destination
 		self.distance = distance
-		self.colours = []
-		self.colours_string = ""
-		for colour in list_of_colours:
-			self.colours.append(colour)
-			self.colours_string = self.colours_string + colour + " "
+		self.colours = list_of_colours
+		self.colours_list = list_of_colours.split()
+		# self.colours = []
+		# self.colours_string = ""
+		self.owner = "None"
+		# for colour in list_of_colours:
+		# 	self.colours.append(colour)
+		# 	self.colours_string = self.colours_string + colour + " "
 
 	def __str__(self):
 		return """
 		%s to %s
 		Distance: %d
 		Colour(s): %s
-		""" % (self.origin, self.destination, self.distance, self.colours_string)
+		""" % (self.origin, self.destination, self.distance, self.colours)
 
 # Player
 class Player (object):
@@ -30,7 +32,7 @@ class Player (object):
 		self.tickets = []
 		self.hand = {"Black": 0, "Blue": 0, "Green": 0, "Orange": 0, "Pink": 0, "Red": 0, "White": 0, "Yellow": 0, "Wildcard": 0}
 		self.score = 0
-		self.trains = 0
+		self.trains = 45
 		self.cards_in_hand = sum(self.hand.values())
 		self.tickets_in_hand = len(self.tickets)
 
@@ -48,12 +50,14 @@ class Ticket(object):
 		self.origin = origin
 		self.destination = destination
 		self.points = points
+		self.status = "Incomplete"
 
 	def __str__(self):
 		return """
 		%s to %s
 		%d points
-		""" % (self.origin, self.destination, self.points)
+		%s
+		""" % (self.origin, self.destination, self.points, self.status)
 
 
 # Ticket Deck
@@ -72,10 +76,21 @@ class Deck(object):
 
 	def draw_a_card(self):
 		return self.deck.pop()
-
-
-
 # Cards on Table
+
+
+# set up the map
+
+routes = []
+route_reader = csv.reader(open("routes.csv"))
+
+route_reader.next()
+
+for row in route_reader:
+	routes.append(Track(row[0], row[1], int(row[2]), row[3]))
+
+print routes[0].origin
+
 
 
 
