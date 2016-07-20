@@ -1,7 +1,7 @@
 from random import shuffle
 import csv
-
-# Cities
+# import networkx as nx
+import functions as fx
 
 # Tracks
 class Track(object):
@@ -11,18 +11,11 @@ class Track(object):
 		self.distance = distance
 		self.colours = list_of_colours
 		self.colours_list = list_of_colours.split()
-		# self.colours = []
-		# self.colours_string = ""
-		self.owner = "None"
-		# for colour in list_of_colours:
-		# 	self.colours.append(colour)
-		# 	self.colours_string = self.colours_string + colour + " "
+		self.owner = "No one"
 
 	def __str__(self):
 		return """
-		%s to %s
-		Distance: %d
-		Colour(s): %s
+		%s to %s, Distance: %d, Colour(s): %s
 		""" % (self.origin, self.destination, self.distance, self.colours)
 
 # Player
@@ -35,6 +28,10 @@ class Player (object):
 		self.trains = 45
 		self.cards_in_hand = sum(self.hand.values())
 		self.tickets_in_hand = len(self.tickets)
+		# self.graph = nx.Graph()
+		# for city in cities:
+		# 	self.graph.add_node(city)
+
 
 	def __str__(self):
 		return """
@@ -49,7 +46,7 @@ class Ticket(object):
 	def __init__(self, origin, destination, points):
 		self.origin = origin
 		self.destination = destination
-		self.points = points
+		self.points = int(points)
 		self.status = "Incomplete"
 
 	def __str__(self):
@@ -59,8 +56,32 @@ class Ticket(object):
 		%s
 		""" % (self.origin, self.destination, self.points, self.status)
 
-
 # Ticket Deck
+class TicketDeck(object):
+	def __init__(self):
+		shuffle(tickets)
+		self.ticket_deck = tickets
+		self.choices = []
+
+	def __str__(self):
+		return "The Ticket Deck has %d tickets in it." % len(self.ticket_deck)
+
+	def draw_a_ticket(self):
+		return self.ticket_deck.pop()
+
+	def ticket_choice(self, n, player):
+
+		print "\n\n" + player.name
+
+		for i in range(2):
+			self.choices.append(self.draw_a_ticket())
+		for i in range(len(self.choices)):
+			print chr(i) + ". "
+			print self.choices[i]
+		print "Enter the number ?"
+		print "You must select at least %d tickets." % n
+
+		
 
 # Card Deck
 class Deck(object):
@@ -81,16 +102,50 @@ class Deck(object):
 
 # set up the map
 
+cities = []
 routes = []
-route_reader = csv.reader(open("routes.csv"))
+tickets = []
+deck = Deck()
 
-route_reader.next()
-
-for row in route_reader:
+track_reader = csv.reader(open("TTR - tracks.csv"))
+track_reader.next()
+for row in track_reader:
 	routes.append(Track(row[0], row[1], int(row[2]), row[3]))
+	cities.append(row[0])
+	cities.append(row[1])
 
-print routes[0].origin
+cities = set(cities)
+
+ticket_reader = csv.reader(open("TTR - tickets.csv"))
+ticket_reader.next()
+for row in ticket_reader:
+	tickets.append(Ticket(row[0], row[1], row[2]))
+
+ticket_deck = TicketDeck()
+
+print "=-=-=-=-=-=-" * 3 + "="
+print ""
+print "      Welcome to Ticket to Ride"
+print ""
+print "=-=-=-=-=-=-" * 3 + "="
 
 
+# print "How many players?"
+# is there an assign function so I can do this better?
+player1_name = raw_input("Enter name for Player One: ")
+player1 = Player(player1_name)
+
+player2_name = raw_input("Enter name for Player Two: ")
+player2 = Player(player2_name)
+
+players = [player1, player2]
+
+for player in players:
+	fx.first_draw(player, deck, ticket_deck)
 
 
+print('\n******')
+print "outside"
+print player1.hand
+print deck
+print ticket_deck
