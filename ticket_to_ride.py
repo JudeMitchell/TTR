@@ -76,12 +76,17 @@ class TicketDeck(object):
 		for i in range(2):
 			self.choices.append(self.draw_a_ticket())
 		for i in range(len(self.choices)):
-			print chr(i) + ". "
+			print "\t\t" + str(i) + ". "
 			print self.choices[i]
-		print "Enter the number ?"
+			print "\n"
 		print "You must select at least %d tickets." % n
+		for i in range(len(self.choices)):
+			print "Would you like ticket %d?" % i
+			ticket_chosen = raw_input("y/n >>>")
 
-		
+			if(ticket_chosen == "y" or ticket_chosen == "Y"):
+				print("hooray, you get a ticket")
+				player.tickets.append(self.choices[i])
 
 # Card Deck
 class Deck(object):
@@ -141,7 +146,7 @@ player2 = Player(player2_name)
 players = [player1, player2]
 
 for player in players:
-	fx.first_draw(player, deck, ticket_deck)
+	fx.first_draw(player, deck, ticket_deck)t
 
 
 print('\n******')
